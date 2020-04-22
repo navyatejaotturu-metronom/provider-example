@@ -1,0 +1,7 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: provider-example
+build:
+  artifacts:
+  - image: navyateja/provider-example

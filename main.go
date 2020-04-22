@@ -17,12 +17,12 @@ func main() {
 	if os.Getenv("DRP_CF_HTTP_ADDR") != "" {
 		url = os.Getenv("DRP_CF_HTTP_ADDR")
 	} else {
-		url = "localhost"
+		url = "0.0.0.0"
 	}
 	if os.Getenv("DRP_CF_HTTP_PORT") != "" {
 		port = os.Getenv("DRP_CF_HTTP_PORT")
 	} else {
-		port = "8085"
+		port = "80"
 	}
 	r := mux.NewRouter()
 	r.HandleFunc("/user", User).Methods("Get")
