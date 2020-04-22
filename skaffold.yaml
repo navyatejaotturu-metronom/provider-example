@@ -3,5 +3,6 @@ kind: Config
 metadata:
   name: provider-example
 build:
-  artifacts:
-  - image: navyateja/provider-example
+  local:
+    artifacts:
+    - image: navyateja/provider-example
