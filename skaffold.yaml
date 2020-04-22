@@ -5,3 +5,4 @@ metadata:
 build:
   artifacts:
   - image: navyateja/provider-example
+  
