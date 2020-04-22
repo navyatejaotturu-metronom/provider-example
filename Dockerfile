@@ -1,5 +1,4 @@
 FROM golang:1.10-stretch as builder
-
 RUN mkdir /mnt/workspace
 COPY . /mnt/workspace
 WORKDIR /mnt/workspace
