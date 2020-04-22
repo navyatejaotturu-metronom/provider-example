@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: provider
+  name: provider
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: provider
+  template:
+    metadata:
+      labels:
+        service: provider
+    spec:
+      containers:
+      - image: navyateja/provider-example
+        name: provider

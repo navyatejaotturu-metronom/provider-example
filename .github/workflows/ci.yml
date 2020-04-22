@@ -10,7 +10,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     
-    - name: skaffold build 
+    - name: skaffold build
+      uses: navyatejaotturu-metronom/skaffold-action@v2
+      with:
+        skaffold: build 
+        docker_username: ${{ secrets.DOCKER_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
         skaffold: build 
