@@ -18,6 +18,6 @@ jobs:
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: skaffold deploy
-      uses: navyatejaotturu-metronom/skaffold-action@v2
+      uses: navyatejaotturu-metronom/skaffold-action@v3
       with:
         skaffold: run
