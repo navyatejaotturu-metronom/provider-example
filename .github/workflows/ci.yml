@@ -19,6 +19,7 @@ jobs:
   tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    steps:
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -33,6 +34,7 @@ jobs:
     needs: [build, tests]
     name: Deploy
     runs-on: ubuntu-latest
+    steps:
     - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
