@@ -2,6 +2,13 @@ name: Build and Deploy to GKE
 on:
   push:
     branches: [ master ]
+
+env:
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GKE_ZONE: europe-west2-c
+  GKE_CLUSTER: github-action-demo
+
 jobs:
   build:
     name: Build
@@ -38,6 +45,19 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GKE_EMAIL }}
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    - name: Configure a K8s cluster to deploy
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+
     - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
