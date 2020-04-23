@@ -68,7 +68,6 @@ jobs:
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         echo $HOME
         ls -la $HOME
-        cat $HOME/.kube/config
 
     - name: Verify contexts
       uses: nickgronow/kubectl@master
@@ -78,4 +77,4 @@ jobs:
     - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
-        skaffold: deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }} --kubeconfig=$HOME/.kube/config --namespace=default
+        skaffold: deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }} --kubeconfig=${{ env.HOME }}/.kube/config --namespace=default
