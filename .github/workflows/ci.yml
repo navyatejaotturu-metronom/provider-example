@@ -9,6 +9,7 @@ env:
   GKE_ZONE: europe-west2-c
   GKE_CLUSTER: github-action-demo
   IMAGE_NAME: navyateja/provider-example
+  SKAFFOLD_BUILD_ARTIFACT: skaffold_build_artifact.json
 
 jobs:
   build:
@@ -21,9 +22,15 @@ jobs:
     - name: skaffold build
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
-        skaffold: build 
+        skaffold: build -q > ${{ env.SKAFFOLD_BUILD_ARTIFACT }}
         docker_username: ${{ secrets.DOCKER_USERNAME }}
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: package the skaffold build output
+      uses: actions/upload-artifact@master
+      with:
+        name: skaffold build artifacts
+        path: ${{ env.SKAFFOLD_BUILD_ARTIFACT }}
 
   tests:
     name: Unit Tests
@@ -51,11 +58,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Docker Image Tag
-      run: |
-          echo $GITHUB_SHA
-          export TAG="$(echo $GITHUB_SHA | cut -c1-7)"
-          echo "::set-env name=IMAGE_TAG::$TAG"
+    - name: download the build
+      uses: actions/download-artifact@master
+      with:
+        name: webpack artifacts
+        path: .
 
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
@@ -78,4 +85,4 @@ jobs:
     - name: skaffold Deploy
       run: |
           echo $HOME
-          skaffold deploy --images ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --namespace=default
+          skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }} --namespace=default
