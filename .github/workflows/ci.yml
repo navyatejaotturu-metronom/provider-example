@@ -61,7 +61,7 @@ jobs:
     - name: download the build
       uses: actions/download-artifact@master
       with:
-        name: webpack artifacts
+        name: skaffold build artifacts
         path: .
 
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
