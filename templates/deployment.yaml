@@ -17,3 +17,6 @@ spec:
       containers:
       - image: navyateja/provider-example
         name: provider
+        envFrom:
+        - configMapRef:
+            name: provider-configuration

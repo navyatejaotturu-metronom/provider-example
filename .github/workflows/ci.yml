@@ -43,7 +43,7 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: '1.10'
-    
+
     - name: Install dependencies
       run: go get github.com/gorilla/mux
 
@@ -75,7 +75,7 @@ jobs:
         gcloud container clusters list --project $GKE_PROJECT
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
         echo $HOME
-    
+
     - name: Set up tools
       uses: daisaru11/setup-cd-tools@v1
       with:
