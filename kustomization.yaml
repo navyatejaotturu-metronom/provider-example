@@ -3,11 +3,6 @@ resources:
 - templates/service.yaml
 configMapGenerator:
 - name: provider-configuration
-  files:
-  - application.properties
-generatorOptions:
-  disableNameSuffixHash: true
-  labels:
-    type: generated
-  annotations:
-    note: generated
+  literals:
+  - HELLO=world
+  - IT_WORKS=true
