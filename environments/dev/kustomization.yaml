@@ -1,0 +1,9 @@
+
+resources:
+- ../../base
+configMapGenerator:
+- name: provider-configuration
+  behavior: merge
+  literals:
+  - IT_WORKS=false
+  - ENV=dev
