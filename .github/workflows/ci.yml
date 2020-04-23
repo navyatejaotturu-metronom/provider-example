@@ -48,6 +48,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Docker Image Tag
+      run: |
+          echo $GITHUB_SHA
+          export IMAGE_TAG="$(echo $GITHUB_SHA | cut -c1-7)"
+          echo "::set-env name=DOCKER_IMAGE_TAG::$IMAGE_TAG"
+
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '270.0.0'
@@ -61,4 +67,4 @@ jobs:
     - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
-        skaffold: deploy
+        skaffold: deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }}
