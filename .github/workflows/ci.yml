@@ -16,7 +16,23 @@ jobs:
         skaffold: build 
         docker_username: ${{ secrets.DOCKER_USERNAME }}
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
+  tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    - name: Checkout
+      uses: actions/checkout@v2
 
+    - name: Install GoLang
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.10'
+
+    - name: Run Unit Tests
+      run: go test -v
+  deploy:
+    needs: [build, tests]
+    name: Deploy
+    runs-on: ubuntu-latest
     - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
