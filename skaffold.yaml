@@ -7,3 +7,20 @@ build:
   - image: navyateja/provider-example
 deploy:
   kustomize: {}
+profiles:
+  - name: Dev
+    deploy:
+      kustomize:
+        flags:
+          global: 
+            - "--namespace dev"
+    activation:
+      - command: dev
+  - name: PP
+    deploy:
+      kustomize:
+        flags:
+          global: 
+            - "--namespace pp"
+    activation:
+      - command: pp
