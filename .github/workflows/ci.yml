@@ -64,7 +64,12 @@ jobs:
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
 
+    - name: Verify contexts
+      uses: nickgronow/kubectl@master
+      with:
+        args: '"config get-contexts"'
+
     - name: skaffold deploy
       uses: navyatejaotturu-metronom/skaffold-action@v2
       with:
-        skaffold: deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }}
+        skaffold: deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }} --kube-context=$GKE_CLUSTER --namespace=default
