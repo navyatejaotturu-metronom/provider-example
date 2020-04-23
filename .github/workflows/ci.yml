@@ -77,7 +77,7 @@ jobs:
     - name: skaffold Deploy
       run: |
           echo $HOME
-          skaffold deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }} --namespace=deafult
+          skaffold deploy --images navyateja/provider-example:${{ env.DOCKER_IMAGE_TAG }} --namespace=default
 
     # - name: Verify contexts
     #   uses: nickgronow/kubectl@master
