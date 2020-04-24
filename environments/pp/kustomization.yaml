@@ -1,3 +1,4 @@
+namespace: pp
 resources:
 - ../../base
 configMapGenerator:

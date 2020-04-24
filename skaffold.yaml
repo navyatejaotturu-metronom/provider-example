@@ -1,4 +1,4 @@
-apiVersion: skaffold/v1
+apiVersion: skaffold/v2beta2
 kind: Config
 metadata:
   name: provider-example
@@ -11,16 +11,14 @@ profiles:
   - name: Dev
     deploy:
       kustomize:
-        flags:
-          global: 
-            - "--namespace dev"
+        paths:
+        - environments/dev
     activation:
       - command: dev
   - name: PP
     deploy:
       kustomize:
-        flags:
-          global: 
-            - "--namespace pp"
+        paths:
+        - environments/pp
     activation:
       - command: pp

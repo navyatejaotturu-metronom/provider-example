@@ -52,7 +52,7 @@ jobs:
 
   deploy:
     needs: [build, tests]
-    name: Deploy
+    name: Deploy to Dev
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -72,9 +72,7 @@ jobs:
 
     - name: Configure a K8s cluster to deploy
       run: |
-        gcloud container clusters list --project $GKE_PROJECT
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-        echo $HOME
 
     - name: Set up tools
       uses: daisaru11/setup-cd-tools@v1
@@ -85,4 +83,4 @@ jobs:
     - name: skaffold Deploy
       run: |
           echo $HOME
-          skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }} --namespace=default
+          skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }}
