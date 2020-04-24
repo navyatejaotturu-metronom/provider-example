@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        environments: [Dev, PP]
+        environments: [DEV, PP]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -86,3 +86,37 @@ jobs:
       run: |
           echo $HOME
           skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }} -p ${{ matrix.environments }}
+
+deployProd:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: download the build
+      uses: actions/download-artifact@master
+      with:
+        name: skaffold build artifacts
+        path: .
+
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GKE_EMAIL }}
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    - name: Configure a K8s cluster to deploy
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+
+    - name: Set up tools
+      uses: daisaru11/setup-cd-tools@v1
+      with:
+        kustomize: '3.5.4'
+        skaffold: '1.8.0'
+
+    - name: skaffold Deploy to PROD
+      run: |
+          echo $HOME
+          skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }} -p PROD

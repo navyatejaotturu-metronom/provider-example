@@ -8,7 +8,7 @@ build:
 deploy:
   kustomize: {}
 profiles:
-  - name: Dev
+  - name: DEV
     deploy:
       kustomize:
         paths:
@@ -22,3 +22,10 @@ profiles:
         - environments/pp
     activation:
       - command: pp
+  - name: PROD
+    deploy:
+      kustomize:
+        paths:
+        - environments/prod
+    activation:
+      - command: prod
