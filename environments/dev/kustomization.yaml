@@ -8,3 +8,4 @@ configMapGenerator:
   literals:
   - IT_WORKS=false
   - ENV=dev
+  - BACKGROUND_COLOR=red

@@ -1,13 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
-
-type payload map[string]interface{}
 
 func TestGetEntries(t *testing.T) {
 	req, err := http.NewRequest("GET", "/user", nil)
@@ -22,21 +19,16 @@ func TestGetEntries(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	expected := payload{
-		"id":   1,
-		"name": "john",
-	}
-	if rr.Body.String() != expected.toJSON() {
+	expected := `<!DOCTYPE html>
+	<html>
+	<body style="background-color:white;">
+	<h2>User: John</h2>
+	<h2>ID: 1</h2>
+	<h2>Environment: default</h2>
+	</body>
+	</html>`
+	if rr.Body.String() != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v",
 			rr.Body.String(), expected)
 	}
-}
-
-func (p payload) toJSON() string {
-	j, err := json.Marshal(p)
-	if err != nil {
-		panic(err)
-	}
-
-	return string(j)
 }

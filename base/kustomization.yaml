@@ -6,3 +6,4 @@ configMapGenerator:
   literals:
   - HELLO=world
   - IT_WORKS=true
+  - BACKGROUND_COLOR=grey

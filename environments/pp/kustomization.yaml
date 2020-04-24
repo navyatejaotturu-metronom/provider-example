@@ -7,3 +7,4 @@ configMapGenerator:
   literals:
   - HELLO=Teja
   - ENV=PP
+  - BACKGROUND_COLOR=yellow

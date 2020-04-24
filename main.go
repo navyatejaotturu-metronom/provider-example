@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,11 +18,13 @@ func main() {
 	} else {
 		url = "0.0.0.0"
 	}
+
 	if os.Getenv("DRP_CF_HTTP_PORT") != "" {
 		port = os.Getenv("DRP_CF_HTTP_PORT")
 	} else {
 		port = "80"
 	}
+
 	r := mux.NewRouter()
 	r.HandleFunc("/user", User).Methods("Get")
 	r.HandleFunc("/.well-known/live", Live).Methods("Get")
@@ -33,15 +34,31 @@ func main() {
 }
 
 func User(w http.ResponseWriter, r *http.Request) {
-	response := make(map[string]interface{})
-	response["id"] = 1
-	response["name"] = "john"
-	val, err := json.Marshal(&response)
-	if err != nil {
-		fmt.Println(err)
+	var backgroundColor, environment string
+	if os.Getenv("BACKGROUND_COLOR") != "" {
+		backgroundColor = os.Getenv("BACKGROUND_COLOR")
+	} else {
+		backgroundColor = "white"
 	}
-	w.Header().Add("Content-Type", "application/json")
-	w.Write(val)
+
+	if os.Getenv("ENV") != "" {
+		environment = os.Getenv("ENV")
+	} else {
+		environment = "default"
+	}
+
+	htmlData := `<!DOCTYPE html>
+	<html>
+	<body style="background-color:` + backgroundColor + `;">
+	<h2>User: John</h2>
+	<h2>ID: 1</h2>
+	<h2>Environment: ` + environment + `</h2>
+	</body>
+	</html>`
+
+	htmlDataInBytes := []byte(htmlData)
+	w.Header().Add("Content-Type", "text/html; charset=utf-8")
+	w.Write(htmlDataInBytes)
 }
 
 func Live(w http.ResponseWriter, r *http.Request) {
