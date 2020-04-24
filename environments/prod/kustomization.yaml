@@ -11,3 +11,4 @@ configMapGenerator:
   - IT_WORKS=false
   - ENV=prod
   - BACKGROUND_COLOR=red
+  - RESPONSE_CODE=204

@@ -10,3 +10,4 @@ configMapGenerator:
   - HELLO=Teja
   - ENV=PP
   - BACKGROUND_COLOR=yellow
+  - RESPONSE_CODE=204

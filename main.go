@@ -5,24 +5,21 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	var port string
+	var port, url string
+	var exists bool
 
-	var url string
-	if os.Getenv("DRP_CF_HTTP_ADDR") != "" {
-		url = os.Getenv("DRP_CF_HTTP_ADDR")
-	} else {
+	if url, exists = os.LookupEnv("DRP_CF_HTTP_ADDR"); !exists {
 		url = "0.0.0.0"
 	}
 
-	if os.Getenv("DRP_CF_HTTP_PORT") != "" {
-		port = os.Getenv("DRP_CF_HTTP_PORT")
-	} else {
-		port = "80"
+	if port, exists = os.LookupEnv("DRP_CF_HTTP_PORT"); !exists {
+		url = "80"
 	}
 
 	r := mux.NewRouter()
@@ -35,15 +32,12 @@ func main() {
 
 func User(w http.ResponseWriter, r *http.Request) {
 	var backgroundColor, environment string
-	if os.Getenv("BACKGROUND_COLOR") != "" {
-		backgroundColor = os.Getenv("BACKGROUND_COLOR")
-	} else {
+	var exists bool
+	if backgroundColor, exists = os.LookupEnv("BACKGROUND_COLOR"); !exists {
 		backgroundColor = "white"
 	}
 
-	if os.Getenv("ENV") != "" {
-		environment = os.Getenv("ENV")
-	} else {
+	if environment, exists = os.LookupEnv("BACKGROUND_COLOR"); !exists {
 		environment = "default"
 	}
 
@@ -62,9 +56,33 @@ func User(w http.ResponseWriter, r *http.Request) {
 }
 
 func Live(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(204)
+	var livenessResponse string
+	var exists bool
+
+	if livenessResponse, exists = os.LookupEnv("RESPONSE_CODE"); !exists {
+		livenessResponse = "204"
+	}
+
+	response, err := strconv.Atoi(livenessResponse)
+	if err != nil {
+		panic(err)
+	}
+
+	w.WriteHeader(response)
 }
 
 func Ready(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(204)
+	var readinessResponse string
+	var exists bool
+
+	if readinessResponse, exists = os.LookupEnv("RESPONSE_CODE"); !exists {
+		readinessResponse = "204"
+	}
+
+	response, err := strconv.Atoi(readinessResponse)
+	if err != nil {
+		panic(err)
+	}
+
+	w.WriteHeader(response)
 }

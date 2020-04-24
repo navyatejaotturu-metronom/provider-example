@@ -17,6 +17,30 @@ spec:
       containers:
       - image: navyateja/provider-example
         name: provider
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /.well-known/live
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: spbootsimple
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /.well-known/ready
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
         envFrom:
         - configMapRef:
             name: provider-configuration

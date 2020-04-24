@@ -11,3 +11,4 @@ configMapGenerator:
   - IT_WORKS=false
   - ENV=dev
   - BACKGROUND_COLOR=green
+  - RESPONSE_CODE=400
