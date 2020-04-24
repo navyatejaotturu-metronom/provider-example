@@ -87,7 +87,7 @@ jobs:
           echo $HOME
           skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }} -p ${{ matrix.environments }}
 
-deployProd:
+  deployProd:
     needs: [deploy]
     runs-on: ubuntu-latest
     steps:
