@@ -19,7 +19,7 @@ func main() {
 	}
 
 	if port, exists = os.LookupEnv("DRP_CF_HTTP_PORT"); !exists {
-		url = "80"
+		port = "80"
 	}
 
 	r := mux.NewRouter()
