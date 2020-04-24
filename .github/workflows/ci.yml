@@ -83,4 +83,4 @@ jobs:
     - name: skaffold Deploy
       run: |
           echo $HOME
-          skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }}
+          skaffold deploy --build-artifacts ${{ env.SKAFFOLD_BUILD_ARTIFACT }} -p Dev

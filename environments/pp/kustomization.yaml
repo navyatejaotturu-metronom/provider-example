@@ -1,6 +1,8 @@
 namespace: pp
 resources:
 - ../../base
+patchesStrategicMerge:
+- templates/service.yaml
 configMapGenerator:
 - name: provider-configuration
   behavior: merge
