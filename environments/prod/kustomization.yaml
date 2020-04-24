@@ -1,5 +1,5 @@
 
-namespace: dev
+namespace: prod
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -9,5 +9,5 @@ configMapGenerator:
   behavior: merge
   literals:
   - IT_WORKS=false
-  - ENV=dev
+  - ENV=prod
   - BACKGROUND_COLOR=red
